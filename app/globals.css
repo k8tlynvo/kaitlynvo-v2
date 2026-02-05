@@ -92,10 +92,7 @@ body {
   animation: float-3 22s ease-in-out infinite;
 }
 
-.link-glow-yellow {
-  transition: color 0.1s ease, text-shadow 0.2s ease;
-}
-.link-glow-yellow:hover {
+.glow-yellow {
   color: #eab308;
   text-shadow:
     0 0 8px rgba(234, 179, 8, 0.6),
@@ -103,10 +100,7 @@ body {
     0 0 24px rgba(234, 179, 8, 0.3);
 }
 
-.link-glow-pink {
-  transition: color 0.1s ease, text-shadow 0.2s ease;
-}
-.link-glow-pink:hover {
+.glow-pink {
   color: #c04949;
   text-shadow:
     0 0 8px rgba(240, 61, 61, 0.6),
@@ -114,13 +108,10 @@ body {
     0 0 24px rgba(240, 61, 61, 0.3);
 }
 
-.link-glow-green {
-  transition: color 0.1s ease, text-shadow 0.2s ease;
-}
-.link-glow-green:hover {
+.glow-green {
   color: #A3A353;
   text-shadow:
-    0 0 8px rgba(196, 234, 8, 0.6),
-    0 0 16px rgba(196, 234, 8, 0.4),
-    0 0 24px rgba(196, 234, 8, 0.3);
+    0 0 8px rgba(163, 163, 83, 0.6),
+    0 0 16px rgba(163, 163, 83, 0.4),
+    0 0 24px rgba(163, 163, 83, 0.3);
 }

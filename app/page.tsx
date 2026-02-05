@@ -1,7 +1,45 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
 
 export default function Home() {
+
+  type Glow = "yellow" | "pink" | "green" | null;
+
+  const [activeGlow, setActiveGlow] = useState<Glow>(null);
+  const [paused, setPaused] = useState(false);
+  const glowTimeout = useRef<NodeJS.Timeout | null>(null);
+
+
+  useEffect(() => {
+    if (paused) return;
+  
+    const order: Glow[] = ["yellow", "pink", "green"];
+    let index = 0;
+  
+    const interval = setInterval(() => {
+      setActiveGlow(order[index]);
+  
+      if (glowTimeout.current) {
+        clearTimeout(glowTimeout.current);
+      }
+  
+      glowTimeout.current = setTimeout(() => {
+        setActiveGlow(null);
+      }, 1500);
+  
+      index = (index + 1) % order.length;
+    }, 3000);
+  
+    return () => {
+      clearInterval(interval);
+      if (glowTimeout.current) {
+        clearTimeout(glowTimeout.current);
+      }
+    };
+  }, [paused]);  
+
   return (
     <div className="flex flex-col min-h-screen w-full items-center bg-[#EFEFD7] font-serif pt-2 px-2">
       <main className="relative flex flex-row h-[99vh] w-[99.8%] items-center overflow-hidden p-2 sm:items-start bg-linear-to-b from-[#FFFBFA] from-50%">
@@ -52,19 +90,70 @@ export default function Home() {
           </h1>
           <p className="text-lg text-zinc-600 italic ml-18">
             a{" "}
-            <Link href="/swe" className="font-medium link-glow-yellow">
+            <Link 
+              href="/swe" 
+              className={`font-medium link-glow-yellow transition-all duration-200 ${ activeGlow === "yellow" ? "glow-yellow" : ""}`} 
+              onMouseEnter={() => {
+                setPaused(true);
+            
+                if (glowTimeout.current) {
+                  clearTimeout(glowTimeout.current);
+                  glowTimeout.current = null;
+                }
+            
+                setActiveGlow("yellow");
+              }}
+              onMouseLeave={() => {
+                setPaused(false);
+                setActiveGlow(null);
+              }}
+            >
               software engineer.
             </Link>
           </p>
           <p className="text-lg text-zinc-600 italic ml-18">
             a{" "}
-            <Link href="/fitness" className="font-medium link-glow-pink">
+            <Link 
+              href="/fitness" 
+              className={`font-medium link-glow-green transition-all duration-200 ${activeGlow === "pink" ? "glow-pink" : ""}`}
+              onMouseEnter={() => {
+                setPaused(true);
+            
+                if (glowTimeout.current) {
+                  clearTimeout(glowTimeout.current);
+                  glowTimeout.current = null;
+                }
+            
+                setActiveGlow("pink");
+              }}
+              onMouseLeave={() => {
+                setPaused(false);
+                setActiveGlow(null);
+              }}
+            >
               fitness professional.
             </Link>
           </p>
           <p className="text-lg text-zinc-600 italic ml-18 w-fit">
             a{" "}
-            <Link href="/florals" className="font-medium link-glow-green">
+            <Link 
+              href="/florals" 
+              className={`font-medium link-glow-green transition-all duration-200 ${activeGlow === "green" ? "glow-green" : ""}`}
+              onMouseEnter={() => {
+                setPaused(true);
+            
+                if (glowTimeout.current) {
+                  clearTimeout(glowTimeout.current);
+                  glowTimeout.current = null;
+                }
+            
+                setActiveGlow("green");
+              }}
+              onMouseLeave={() => {
+                setPaused(false);
+                setActiveGlow(null);
+              }}
+            >
               florist.
             </Link>
           </p>

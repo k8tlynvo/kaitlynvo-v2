@@ -1,7 +1,44 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 
 export default function FloralsPage() {
+  type Glow = "yellow" | "pink" | "green" | null;
+
+  const [activeGlow, setActiveGlow] = useState<Glow>(null);
+  const [paused, setPaused] = useState(false);
+  const glowTimeout = useRef<NodeJS.Timeout | null>(null);
+
+
+  useEffect(() => {
+    if (paused) return;
+  
+    const order: Glow[] = ["green"];
+    let index = 0;
+  
+    const interval = setInterval(() => {
+      setActiveGlow(order[index]);
+  
+      if (glowTimeout.current) {
+        clearTimeout(glowTimeout.current);
+      }
+  
+      glowTimeout.current = setTimeout(() => {
+        setActiveGlow(null);
+      }, 1000);
+  
+      index = (index + 1) % order.length;
+    }, 6000);
+  
+    return () => {
+      clearInterval(interval);
+      if (glowTimeout.current) {
+        clearTimeout(glowTimeout.current);
+      }
+    };
+  }, [paused]);
+
   return (
     <div className="flex flex-col min-h-screen w-full items-center bg-[#EFEFD7] font-serif pt-2 px-2">
       <div className="relative flex flex-row h-[99vh] w-[99.8%] items-center overflow-hidden p-2 sm:items-start bg-linear-to-b from-[#FFFBFA] from-50%">
@@ -32,7 +69,25 @@ export default function FloralsPage() {
           <main className="h-fit w-[95%] justify-self-center mt-[25vh]">
             <h1 className="mt-8 text-2xl text-zinc-600">hi, i&apos;m a florist</h1>
             <div className="flex flex-row justify-between w-[94%] ml-auto italic">
-              <a href="https://www.instagram.com/floweringquyen?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr"><p className="mt-4 text-black w-fit link-glow-green">@floweringquyen.</p></a>
+              <a href="https://www.instagram.com/floweringquyen?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr">
+                <p
+                  className={`mt-4 text-black w-fit link-glow-pink transition-all duration-200 ${ activeGlow === "green" ? "glow-green" : ""}`} 
+                  onMouseEnter={() => {
+                    setPaused(true);
+                
+                    if (glowTimeout.current) {
+                      clearTimeout(glowTimeout.current);
+                      glowTimeout.current = null;
+                    }
+                
+                    setActiveGlow("green");
+                  }}
+                  onMouseLeave={() => {
+                    setPaused(false);
+                    setActiveGlow(null);
+                  }}
+                >@floweringquyen.</p>
+              </a>
               <div className="flex flex-col text-sm ">
                 <Image 
                   className="m-2 shrink-0 rounded-sm"
