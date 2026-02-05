@@ -38,7 +38,7 @@ export default function FloralsPage() {
                   className="m-2 shrink-0 rounded-sm"
                   width={200}
                   height={200}
-                  src="/floweringquyen.jpg"
+                  src="/kaitlynvo-v2/floweringquyen.jpg"
                   alt="flower bouquet"
                 />
                 <p className="text-zinc-600 w-fit self-end hover:underline">make yours</p>
